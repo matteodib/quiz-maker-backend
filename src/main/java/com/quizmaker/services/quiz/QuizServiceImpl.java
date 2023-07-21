@@ -69,4 +69,14 @@ public class QuizServiceImpl implements QuizService {
             throw new ResponseStatusException(HttpStatus.ALREADY_REPORTED, "Hai già terminato il quiz");
         return quiz;
     }
+
+    @Override
+    public Quiz setQuizAsCompleted(Long quizId) {
+        Quiz quiz = quizRepository.findById(quizId).orElse(null);
+        if(quiz == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Non è stato possibile trovare il quiz");
+        quiz.setActive(false);
+        quizRepository.save(quiz);
+        return quiz;
+    }
 }

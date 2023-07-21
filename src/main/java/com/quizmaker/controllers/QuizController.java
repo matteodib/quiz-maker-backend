@@ -39,4 +39,9 @@ public class QuizController {
     public Quiz getQuizBySession(@RequestBody FindQuizSessionDTO request) throws ResponseStatusException {
         return quizService.getQuizBySession(request);
     }
+
+    @GetMapping("/set-quiz-as-completed/{quizId}")
+    public Quiz setQuizAsCompleted(@PathVariable("quizId") Long quizId) {
+        return quizService.setQuizAsCompleted(quizId);
+    }
 }

@@ -19,4 +19,5 @@ public interface QuizService {
     Quiz getQuiz(Long quizId) throws Exception;
 
     Quiz getQuizBySession(FindQuizSessionDTO request) throws ResponseStatusException;
+    Quiz setQuizAsCompleted(Long quizId);
 }
