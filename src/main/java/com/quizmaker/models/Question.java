@@ -14,8 +14,8 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "Questions")
 @Entity
+@Table(name = "questions")
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +24,9 @@ public class Question {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @OneToMany(mappedBy = "question")
-    private List<QuizQuestion> questionQuizzes;
 
 }

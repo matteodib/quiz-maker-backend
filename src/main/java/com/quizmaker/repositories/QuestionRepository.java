@@ -2,6 +2,8 @@ package com.quizmaker.repositories;
 
 import com.quizmaker.models.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,4 +14,8 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     List<Question> findAllByCategoryId(Long id);
 
     List<Question> findAllByIdIn(List<Long> ids);
+
+    List<Question> findByIdNotIn(List<Long> ids);
+
+    List<Question> findByIdNotInAndCategoryId(@Param("ids") List<Long> ids, @Param("categoryId") Long categoryId);
 }

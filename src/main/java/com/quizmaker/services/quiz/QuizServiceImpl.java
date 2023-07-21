@@ -1,9 +1,6 @@
 package com.quizmaker.services.quiz;
 
-import com.quizmaker.models.Category;
-import com.quizmaker.models.Question;
-import com.quizmaker.models.Quiz;
-import com.quizmaker.models.QuizQuestion;
+import com.quizmaker.models.*;
 import com.quizmaker.models.dtos.AddQuestionsDTO;
 import com.quizmaker.models.dtos.FindQuizSessionDTO;
 import com.quizmaker.models.dtos.QuizDTO;
@@ -42,15 +39,18 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public Quiz addQuestions(AddQuestionsDTO request, Long quizId) throws Exception {
+
         Quiz quiz = quizRepository.findById(quizId).orElseThrow(() -> new Exception());
         List<Question> questions = questionRepository.findAllByIdIn(request.questionIds);
         for (Question question: questions) {
-            QuizQuestion quizQuestion = new QuizQuestion();
-            quizQuestion.setQuiz(quiz);
-            quizQuestion.setQuestion(question);
-            quizQuestionRepository.save(quizQuestion);
+            if(quiz != null && question != null) {
+                QuizQuestion quizQuestion = new QuizQuestion();
+                quizQuestion.setQuiz(quiz);
+                quizQuestion.setQuestion(question);
+                quizQuestion.setAnswer("");
+                quizQuestionRepository.save(quizQuestion);
+            }
         }
-        quizRepository.save(quiz);
         return quiz;
     }
 
@@ -65,6 +65,8 @@ public class QuizServiceImpl implements QuizService {
         Quiz quiz = quizRepository.findOneBySession(request.session);
         if(quiz == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Non è stato trovato il quiz in questione");
+        if(quiz.getActive() == false)
+            throw new ResponseStatusException(HttpStatus.ALREADY_REPORTED, "Hai già terminato il quiz");
         return quiz;
     }
 }

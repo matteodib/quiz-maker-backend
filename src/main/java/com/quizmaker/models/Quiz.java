@@ -15,7 +15,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "Quizzes")
+@Table(name = "quizzes")
 public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,13 +30,20 @@ public class Quiz {
     @Column(name = "session", nullable = false, unique = true)
     private String session;
 
-    @Column(name = "active")
-    private boolean active;
+    @Column(name = "active", columnDefinition = "boolean default true")
+    private Boolean active;
+
     @ManyToOne
     @JoinColumn(name="category_id", nullable=false)
     private Category category;
 
-    @OneToMany(mappedBy = "quiz")
-    private List<QuizQuestion> quizQuestions;
+    @ManyToMany
+    @JoinTable(
+            name = "quizzes_questions",
+            joinColumns = @JoinColumn(name = "quiz_id"),
+            inverseJoinColumns = @JoinColumn(name = "question_id")
+    )
+    private List<Question> questions = new ArrayList<>();
+
 
 }
