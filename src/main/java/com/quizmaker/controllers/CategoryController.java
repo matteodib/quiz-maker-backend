@@ -25,4 +25,9 @@ public class CategoryController {
         return this.categoryService.storeCategory(request);
     }
 
+    @DeleteMapping("/{categoryId}")
+    public void deleteCategory(@PathVariable("categoryId") Long categoryId) {
+        this.categoryService.deleteCategory(categoryId);
+    }
+
 }

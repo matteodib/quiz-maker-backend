@@ -24,7 +24,7 @@ public class Quiz {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, length = 10240)
     private String description;
 
     @Column(name = "session", nullable = false, unique = true)
