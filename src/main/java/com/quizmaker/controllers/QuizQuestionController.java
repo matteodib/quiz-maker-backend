@@ -23,6 +23,10 @@ public class QuizQuestionController {
         return quizQuestionService.getQuestionsOfQuiz(quizId);
     }
 
+    @GetMapping("/quiz/{quizId}/question/{questionId}")
+    public QuizQuestion getAnswerOfQuestion(@PathVariable("quizId") Long quizId, @PathVariable("questionId") Long questionId) {
+        return quizQuestionService.getAnswerOfQuestion(quizId, questionId);
+    }
     @PostMapping("get-questions-not-in-quiz/{quizId}")
     public List<Question> getQuestionsNotInQuiz(@PathVariable("quizId") Long quizId, @RequestBody GetQuestionsNotInQuizDTO request) {
     return quizQuestionService.getQuestionsNotInQuiz(quizId, request);

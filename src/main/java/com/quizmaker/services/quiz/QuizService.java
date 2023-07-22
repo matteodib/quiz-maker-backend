@@ -12,6 +12,9 @@ import java.util.List;
 @Service
 public interface QuizService {
 
+    List<Quiz> getAllQuizzes();
+
+    List<Quiz> getQuizzesOfCategory(Long categoryId);
     Quiz saveQuiz(QuizDTO request) throws Exception;
 
     Quiz addQuestions(AddQuestionsDTO request, Long quizId) throws Exception;
@@ -20,4 +23,6 @@ public interface QuizService {
 
     Quiz getQuizBySession(FindQuizSessionDTO request) throws ResponseStatusException;
     Quiz setQuizAsCompleted(Long quizId);
+
+    void deleteQuiz(Long quizId);
 }

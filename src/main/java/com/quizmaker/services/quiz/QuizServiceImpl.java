@@ -26,12 +26,24 @@ public class QuizServiceImpl implements QuizService {
     private QuestionRepository questionRepository;
     @Autowired
     private QuizQuestionRepository quizQuestionRepository;
+
+    @Override
+    public List<Quiz> getAllQuizzes() {
+        return quizRepository.findAll();
+    }
+
+    @Override
+    public List<Quiz> getQuizzesOfCategory(Long categoryId) {
+        return quizRepository.findAllByCategoryId(categoryId);
+    }
+
     @Override
     public Quiz saveQuiz(QuizDTO request) throws Exception {
         Quiz quiz = new Quiz();
         quiz.setTitle(request.title);
         quiz.setDescription(request.description);
         quiz.setSession(request.session);
+        quiz.setActive(true);
         quiz.setCategory(categoryRepository.findById(request.categoryId).orElseThrow(() -> new Exception()));
         quizRepository.save(quiz);
         return quiz;
@@ -78,5 +90,15 @@ public class QuizServiceImpl implements QuizService {
         quiz.setActive(false);
         quizRepository.save(quiz);
         return quiz;
+    }
+
+    @Override
+    public void deleteQuiz(Long quizId) {
+        Quiz quiz = quizRepository.findById(quizId).orElse(null);
+        if(quiz != null) {
+            quizRepository.deleteById(quizId);
+            return;
+        }
+        return;
     }
 }

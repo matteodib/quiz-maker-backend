@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 @RestController
 @RequestMapping(path = "quizzes")
 public class QuizController {
@@ -16,8 +17,13 @@ public class QuizController {
     @Autowired
     public QuizService quizService;
     @RequestMapping("/")
-    public String getQuizzes(){
-        return "Hello World from Spring Boot";
+    public List<Quiz> getQuizzes(){
+        return quizService.getAllQuizzes();
+    }
+
+    @RequestMapping("/category/{categoryId}")
+    public List<Quiz> getQuizzes(@PathVariable("categoryId") Long categoryId){
+        return quizService.getQuizzesOfCategory(categoryId);
     }
 
     @PostMapping("/")
@@ -43,5 +49,9 @@ public class QuizController {
     @GetMapping("/set-quiz-as-completed/{quizId}")
     public Quiz setQuizAsCompleted(@PathVariable("quizId") Long quizId) {
         return quizService.setQuizAsCompleted(quizId);
+    }
+    @DeleteMapping("/{quizId}")
+    public void deleteQuiz(@PathVariable("quizId") Long quizId) {
+        quizService.deleteQuiz(quizId);
     }
 }

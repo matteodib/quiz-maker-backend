@@ -31,6 +31,11 @@ public class QuizQuestionServiceImpl implements QuizQuestionService{
     }
 
     @Override
+    public QuizQuestion getAnswerOfQuestion(Long quizId, Long questionId) {
+        return quizQuestionRepository.findOneByQuizIdAndQuestionId(quizId, questionId);
+    }
+
+    @Override
     public List<Question> getQuestionsNotInQuiz(Long quizId, GetQuestionsNotInQuizDTO request) {
         ArrayList<Long> questionIdsInQuiz = new ArrayList<>();
         Quiz quiz = quizRepository.findById(quizId).orElse(null);
@@ -42,7 +47,11 @@ public class QuizQuestionServiceImpl implements QuizQuestionService{
         if(request.getCategoryId() != null) {
             availableQuestions = questionRepository.findByIdNotInAndCategoryId(questionIdsInQuiz, request.getCategoryId());
         } else {
-            availableQuestions = questionRepository.findByIdNotIn(questionIdsInQuiz);
+            if(questionIdsInQuiz.size() == 0) {
+                availableQuestions = questionRepository.findAll();
+            } else {
+                availableQuestions = questionRepository.findAllByIdNotIn(questionIdsInQuiz);
+            }
         }
         return availableQuestions;
     }

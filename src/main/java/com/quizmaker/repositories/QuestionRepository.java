@@ -15,7 +15,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     List<Question> findAllByIdIn(List<Long> ids);
 
-    List<Question> findByIdNotIn(List<Long> ids);
+    List<Question> findAllByIdNotIn(List<Long> ids);
 
     List<Question> findByIdNotInAndCategoryId(@Param("ids") List<Long> ids, @Param("categoryId") Long categoryId);
 }

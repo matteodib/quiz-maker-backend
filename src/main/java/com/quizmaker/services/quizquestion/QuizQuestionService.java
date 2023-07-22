@@ -13,6 +13,7 @@ import java.util.List;
 public interface QuizQuestionService {
     List<QuizQuestion> getQuestionsOfQuiz(Long quizId);
 
+    QuizQuestion getAnswerOfQuestion(Long quizId, Long questionId);
     List<Question> getQuestionsNotInQuiz(Long quizId, GetQuestionsNotInQuizDTO request);
 
     Question removeQuestionFromQuiz(RemoveQuestionFromQuizDTO request);
