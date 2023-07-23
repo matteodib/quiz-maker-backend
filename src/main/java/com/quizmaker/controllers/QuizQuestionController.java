@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "quiz-question")
+@RequestMapping(path = "protected/quiz-question")
 public class QuizQuestionController {
     @Autowired
     QuizQuestionService quizQuestionService;

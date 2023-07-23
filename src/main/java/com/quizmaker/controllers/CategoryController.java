@@ -11,7 +11,7 @@ import java.util.List;
 
 @Controller
 @RestController
-@RequestMapping(path = "categories")
+@RequestMapping(path = "protected/categories")
 public class CategoryController {
     @Autowired
     public CategoryService categoryService;

@@ -11,7 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 @RestController
-@RequestMapping(path = "quizzes")
+@RequestMapping(path = "protected/quizzes")
 public class QuizController {
 
     @Autowired

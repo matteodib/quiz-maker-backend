@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "questions")
+@RequestMapping(path = "protected/questions")
 public class QuestionController {
 
     @Autowired
