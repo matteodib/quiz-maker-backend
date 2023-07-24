@@ -67,14 +67,13 @@ public class QuizQuestionServiceImpl implements QuizQuestionService{
     }
 
     @Override
-    public Quiz updateQuestionAnswer(UpdateAnswerDTO request) {
-        Question question = questionRepository.findById(request.getQuestionId()).orElse(null);
-        Quiz quiz = quizRepository.findById(request.getQuizId()).orElse(null);
-        if(question != null && quiz != null) {
-            QuizQuestion quizQuestion = quizQuestionRepository.findOneByQuizIdAndQuestionId(request.getQuizId(), request.getQuestionId());
+    public QuizQuestion updateAnswer(Long quizQuestionid, UpdateAnswerDTO request) {
+        QuizQuestion quizQuestion = quizQuestionRepository.findById(quizQuestionid).orElse(null);
+        if(quizQuestion != null) {
             quizQuestion.setAnswer(request.getAnswer());
             quizQuestionRepository.save(quizQuestion);
+            return quizQuestion;
         }
-        return quiz;
+        return null;
     }
 }

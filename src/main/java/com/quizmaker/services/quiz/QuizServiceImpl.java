@@ -75,6 +75,10 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public Quiz getQuizBySession(FindQuizSessionDTO request) throws ResponseStatusException {
         Quiz quiz = quizRepository.findOneBySession(request.session);
+        if(quiz.getFirstOpening() == null) {
+            quiz.setFirstOpening(new Date());
+            quizRepository.save(quiz);
+        }
         if(quiz == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Non è stato trovato il quiz in questione");
         if(quiz.getActive() == false)
@@ -85,6 +89,10 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public Quiz setQuizAsCompleted(Long quizId) {
         Quiz quiz = quizRepository.findById(quizId).orElse(null);
+        if(quiz != null ) {
+            quiz.setSendingDate(new Date());
+            quizRepository.save(quiz);
+        }
         if(quiz == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Non è stato possibile trovare il quiz");
         quiz.setActive(false);

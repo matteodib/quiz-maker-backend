@@ -46,10 +46,6 @@ public class QuizController {
         return quizService.getQuizBySession(request);
     }
 
-    @GetMapping("/set-quiz-as-completed/{quizId}")
-    public Quiz setQuizAsCompleted(@PathVariable("quizId") Long quizId) {
-        return quizService.setQuizAsCompleted(quizId);
-    }
     @DeleteMapping("/{quizId}")
     public void deleteQuiz(@PathVariable("quizId") Long quizId) {
         quizService.deleteQuiz(quizId);

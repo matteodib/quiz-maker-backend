@@ -37,8 +37,4 @@ public class QuizQuestionController {
         return quizQuestionService.removeQuestionFromQuiz(request);
     }
 
-    @PatchMapping("update-answer")
-    public Quiz updateQuestionAnswer(@RequestBody UpdateAnswerDTO request) {
-        return quizQuestionService.updateQuestionAnswer(request);
-    }
 }

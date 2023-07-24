@@ -18,5 +18,5 @@ public interface QuizQuestionService {
 
     Question removeQuestionFromQuiz(RemoveQuestionFromQuizDTO request);
 
-    Quiz updateQuestionAnswer(UpdateAnswerDTO request);
+    QuizQuestion updateAnswer(Long quizQuestionid,UpdateAnswerDTO request);
 }

@@ -6,10 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -32,6 +29,12 @@ public class Quiz {
 
     @Column(name = "active", columnDefinition = "boolean default true")
     private Boolean active;
+
+    @Column(name = "firstOpened", nullable = true)
+    private Date firstOpening;
+
+    @Column(name = "sendingDate", nullable = true)
+    private Date sendingDate;
 
     @ManyToOne
     @JoinColumn(name="category_id", nullable=false)
