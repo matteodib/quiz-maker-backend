@@ -46,6 +46,16 @@ public class QuizServiceImpl implements QuizService {
         quiz.setActive(true);
         quiz.setCategory(categoryRepository.findById(request.categoryId).orElseThrow(() -> new Exception()));
         quizRepository.save(quiz);
+        if (request.addQuestions) {
+            List<Question> questions = questionRepository.findRandomQuestions(quiz.getCategory().getId());
+            for (Question question: questions) {
+                QuizQuestion quizQuestion = new QuizQuestion();
+                quizQuestion.setQuiz(quiz);
+                quizQuestion.setQuestion(question);
+                quizQuestion.setAnswer("");
+                quizQuestionRepository.save(quizQuestion);
+            }
+        }
         return quiz;
     }
 

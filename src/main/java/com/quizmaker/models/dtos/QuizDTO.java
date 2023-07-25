@@ -6,4 +6,6 @@ public class QuizDTO {
     public String description;
     public String session;
     public Long categoryId;
+
+    public boolean addQuestions;
 }
