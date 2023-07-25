@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+
+    quiz-maker-backend:
+    
+        container_name: quiz-maker-backend
+        build: 
+            context: .
+        ports: 
+            - 8081:8080
+
+        environment:
+            DB_HOST: 51.77.152.89
+            DB_PORT: 5432
+            DB_USER: quizmaker
+            DB_PASSWORD: q5Hee%jbPl
+
+        command: >
+            sh -c "mvn spring-boot:run"
