@@ -4,6 +4,7 @@ import com.quizmaker.models.Quiz;
 import com.quizmaker.models.dtos.AddQuestionsDTO;
 import com.quizmaker.models.dtos.FindQuizSessionDTO;
 import com.quizmaker.models.dtos.QuizDTO;
+import com.quizmaker.models.pojos.QuizStatisticsPOJO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -25,4 +26,6 @@ public interface QuizService {
     Quiz setQuizAsCompleted(Long quizId);
 
     void deleteQuiz(Long quizId);
+
+    QuizStatisticsPOJO getQuizStatistics();
 }

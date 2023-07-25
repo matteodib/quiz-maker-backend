@@ -11,5 +11,6 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
 
     List<Quiz> findAllByCategoryId(Long categoryId);
     Quiz findOneBySession(String session);
+    List<Quiz> findAllByActive(boolean active);
 
 }

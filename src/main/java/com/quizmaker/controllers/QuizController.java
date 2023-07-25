@@ -4,6 +4,7 @@ import com.quizmaker.models.Quiz;
 import com.quizmaker.models.dtos.AddQuestionsDTO;
 import com.quizmaker.models.dtos.FindQuizSessionDTO;
 import com.quizmaker.models.dtos.QuizDTO;
+import com.quizmaker.models.pojos.QuizStatisticsPOJO;
 import com.quizmaker.services.quiz.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -49,5 +50,10 @@ public class QuizController {
     @DeleteMapping("/{quizId}")
     public void deleteQuiz(@PathVariable("quizId") Long quizId) {
         quizService.deleteQuiz(quizId);
+    }
+
+    @GetMapping("/get-statistics")
+    public QuizStatisticsPOJO getQuiz() {
+        return quizService.getQuizStatistics();
     }
 }

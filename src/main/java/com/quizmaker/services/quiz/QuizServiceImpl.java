@@ -4,6 +4,7 @@ import com.quizmaker.models.*;
 import com.quizmaker.models.dtos.AddQuestionsDTO;
 import com.quizmaker.models.dtos.FindQuizSessionDTO;
 import com.quizmaker.models.dtos.QuizDTO;
+import com.quizmaker.models.pojos.QuizStatisticsPOJO;
 import com.quizmaker.repositories.CategoryRepository;
 import com.quizmaker.repositories.QuestionRepository;
 import com.quizmaker.repositories.QuizQuestionRepository;
@@ -118,5 +119,16 @@ public class QuizServiceImpl implements QuizService {
             return;
         }
         return;
+    }
+
+    @Override
+    public QuizStatisticsPOJO getQuizStatistics() {
+        List<Quiz> onGoingQuizzes = quizRepository.findAllByActive(true);
+        List<Quiz> endedQuizzes = quizRepository.findAllByActive(false);
+
+        QuizStatisticsPOJO quizStatisticsPOJO = new QuizStatisticsPOJO();
+        quizStatisticsPOJO.setOnGoingQuizzes(onGoingQuizzes.size());
+        quizStatisticsPOJO.setEndedQuizzes(endedQuizzes.size());
+        return quizStatisticsPOJO;
     }
 }
