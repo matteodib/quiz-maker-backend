@@ -18,7 +18,7 @@ public class AuthenticationController {
     @Autowired
     UserService userService;
 
-    @PostMapping("/register")
+    @PostMapping("/hidden/register/hidden")
     public AuthenticationResponse register(@RequestBody RegisterAuthenticateDTO request) {
         return userService.register(request);
     }
