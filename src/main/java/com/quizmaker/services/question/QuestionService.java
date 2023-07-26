@@ -14,5 +14,5 @@ public interface QuestionService {
 
     Question storeQuestion(QuestionDTO request) throws Exception;
 
-    Question deleteQuestion(Long questionId) throws Exception;
+    Question deleteQuestion(Long questionId);
 }
