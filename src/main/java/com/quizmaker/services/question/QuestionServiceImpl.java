@@ -2,6 +2,7 @@ package com.quizmaker.services.question;
 
 import com.quizmaker.models.Category;
 import com.quizmaker.models.Question;
+import com.quizmaker.models.Quiz;
 import com.quizmaker.models.dtos.QuestionDTO;
 import com.quizmaker.repositories.CategoryRepository;
 import com.quizmaker.repositories.QuestionRepository;
@@ -35,5 +36,14 @@ public class QuestionServiceImpl implements QuestionService {
         newQuestion.setCategory(categoryExists);
         questionRepository.save(newQuestion);
         return newQuestion;
+    }
+
+    @Override
+    public Question deleteQuestion(Long quizId) {
+        Question question = questionRepository.findById(quizId).orElse(null);
+        if(question != null) {
+            questionRepository.deleteById(quizId);
+        }
+        return question;
     }
 }

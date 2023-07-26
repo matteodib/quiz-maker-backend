@@ -13,4 +13,6 @@ public interface QuestionService {
     List<Question> getQuestionsOfCategory(Long id);
 
     Question storeQuestion(QuestionDTO request) throws Exception;
+
+    Question deleteQuestion(Long questionId) throws Exception;
 }

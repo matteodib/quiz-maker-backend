@@ -28,4 +28,9 @@ public class QuestionController {
     public Question storeQuestion(@RequestBody QuestionDTO request) throws Exception {
         return questionService.storeQuestion(request);
     }
+
+    @DeleteMapping("/{questionId}")
+    public void deleteQuestion(@PathVariable("questionId") Long questionId) {
+        this.questionService.deleteQuestion(questionId);
+    }
 }
