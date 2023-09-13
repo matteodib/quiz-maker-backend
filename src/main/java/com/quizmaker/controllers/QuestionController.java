@@ -2,6 +2,8 @@ package com.quizmaker.controllers;
 
 import com.quizmaker.models.Category;
 import com.quizmaker.models.Question;
+import com.quizmaker.models.QuestionType;
+import com.quizmaker.models.Ranking;
 import com.quizmaker.models.dtos.QuestionDTO;
 import com.quizmaker.services.question.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,15 @@ public class QuestionController {
         return questionService.getQuestionsOfCategory(categoryId);
     }
 
+    @GetMapping("/get-rankings")
+    public List<Ranking> getRankings(){
+        return questionService.getRankings();
+    }
+
+    @GetMapping("/get-question-types")
+    public List<QuestionType> getQuestionTypes(){
+        return questionService.getQuestionTypes();
+    }
     @PostMapping("/")
     public Question storeQuestion(@RequestBody QuestionDTO request) throws Exception {
         return questionService.storeQuestion(request);

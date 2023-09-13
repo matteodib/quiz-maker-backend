@@ -6,10 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -28,5 +25,16 @@ public class Question {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    @ManyToOne
+    @JoinColumn(name = "ranking_id", nullable = true)
+    private Ranking ranking;
 
+    @ManyToOne
+    @JoinColumn(name = "type_id", nullable = true)
+    private QuestionType questionType;
+
+
+    @OneToMany(cascade=CascadeType.ALL)
+    @JoinColumn(name = "question_id")
+    private Set<MultipleQuestionChoice> multipleQuestionChoices = new HashSet<MultipleQuestionChoice>();
 }

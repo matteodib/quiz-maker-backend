@@ -18,6 +18,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     List<Question> findAllByIdNotIn(List<Long> ids);
 
     List<Question> findByIdNotInAndCategoryId(@Param("ids") List<Long> ids, @Param("categoryId") Long categoryId);
-    @Query(value = "SELECT * FROM questions q WHERE q.category_id = ?1 ORDER BY RANDOM() LIMIT ?2", nativeQuery = true)
-    List<Question> findRandomQuestions(Long categoryId, Long numberOfQuestions);
+    @Query(value = "SELECT * FROM questions q WHERE q.category_id IN ?1 AND q.ranking_id = ?3 ORDER BY RANDOM() LIMIT ?2", nativeQuery = true)
+    List<Question> findRandomQuestions(Long[] categoryIds, int numberOfQuestions, int rankingId);
+
 }

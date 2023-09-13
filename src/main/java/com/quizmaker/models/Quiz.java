@@ -36,9 +36,13 @@ public class Quiz {
     @Column(name = "sendingDate", nullable = true)
     private Date sendingDate;
 
-    @ManyToOne
-    @JoinColumn(name="category_id", nullable=false)
-    private Category category;
+    @ManyToMany
+    @JoinTable(
+            name = "quizzes_categories",
+            joinColumns = @JoinColumn(name = "quiz_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

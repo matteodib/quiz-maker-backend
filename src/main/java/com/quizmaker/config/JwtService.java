@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,13 +40,17 @@ public class JwtService {
         return generateToken(new HashMap<>(), userDetails);
     }
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-    return Jwts.builder()
-            .setClaims(extraClaims)
-            .setSubject(userDetails.getUsername())
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + 30L * 24 * 60 * 60 * 1000 ))
-            .signWith(getSigninKey(), SignatureAlgorithm.HS256)
-            .compact();
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.YEAR, 1);
+        Date newDate = c.getTime();
+        return Jwts.builder()
+                .setClaims(extraClaims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(newDate)
+                .signWith(getSigninKey(), SignatureAlgorithm.HS256)
+                .compact();
 
     }
     public boolean isTokenValid(String token, UserDetails userDetails) {
