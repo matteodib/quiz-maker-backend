@@ -5,10 +5,7 @@ import com.quizmaker.models.dtos.AddQuestionsDTO;
 import com.quizmaker.models.dtos.FindQuizSessionDTO;
 import com.quizmaker.models.dtos.QuizDTO;
 import com.quizmaker.models.pojos.QuizStatisticsPOJO;
-import com.quizmaker.repositories.CategoryRepository;
-import com.quizmaker.repositories.QuestionRepository;
-import com.quizmaker.repositories.QuizQuestionRepository;
-import com.quizmaker.repositories.QuizRepository;
+import com.quizmaker.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -27,6 +24,8 @@ public class QuizServiceImpl implements QuizService {
     private QuestionRepository questionRepository;
     @Autowired
     private QuizQuestionRepository quizQuestionRepository;
+    @Autowired
+    private QuizCategoryRepository quizCategoryRepository;
 
     @Override
     public List<Quiz> getAllQuizzes() {
@@ -35,7 +34,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public List<Quiz> getQuizzesOfCategory(Long categoryId) {
-        return quizRepository.findAllByCategoryId(categoryId);
+        return quizRepository.findAllByCategoryIds(categoryId);
     }
 
     @Override
@@ -45,11 +44,42 @@ public class QuizServiceImpl implements QuizService {
         quiz.setDescription(request.description);
         quiz.setSession(request.session);
         quiz.setActive(true);
-        quiz.setCategory(categoryRepository.findById(request.categoryId).orElseThrow(() -> new Exception()));
         quizRepository.save(quiz);
-        if (request.addQuestions) {
-            List<Question> questions = questionRepository.findRandomQuestions(quiz.getCategory().getId(), request.numberOfQuestions);
-            for (Question question: questions) {
+        if(request.categoryIds.length > 0) {
+            for (Long categoryId: request.categoryIds) {
+                QuizCategory quizCategory = new QuizCategory();
+                Category category = categoryRepository.findById(categoryId).orElse(null);
+                if(category == null) continue;
+                quizCategory.setCategory(category);
+                quizCategory.setQuiz(quiz);
+                quizCategoryRepository.save(quizCategory);
+            }
+
+        }
+        if (request.addQuestions && request.categoryIds.length > 0) {
+            int juniorNumberOfQuestions = Math.round( (float) request.juniorSeniority /100 * request.numberOfQuestions );
+            int middleNumberOfQuestions = Math.round( (float) request.middleSeniority /100 * request.numberOfQuestions );
+            int seniorNumberOfQuestions = Math.round( (float) request.seniorSeniority /100 * request.numberOfQuestions );
+            List<Question> juniorQuestions = questionRepository.findRandomQuestions(request.categoryIds, juniorNumberOfQuestions, 1);
+            List<Question> middleQuestions = questionRepository.findRandomQuestions(request.categoryIds, middleNumberOfQuestions, 2);
+            List<Question> seniorQuestions = questionRepository.findRandomQuestions(request.categoryIds, seniorNumberOfQuestions, 3);
+
+
+            for (Question question: juniorQuestions) {
+                QuizQuestion quizQuestion = new QuizQuestion();
+                quizQuestion.setQuiz(quiz);
+                quizQuestion.setQuestion(question);
+                quizQuestion.setAnswer("");
+                quizQuestionRepository.save(quizQuestion);
+            }
+            for (Question question: middleQuestions) {
+                QuizQuestion quizQuestion = new QuizQuestion();
+                quizQuestion.setQuiz(quiz);
+                quizQuestion.setQuestion(question);
+                quizQuestion.setAnswer("");
+                quizQuestionRepository.save(quizQuestion);
+            }
+            for (Question question: seniorQuestions) {
                 QuizQuestion quizQuestion = new QuizQuestion();
                 quizQuestion.setQuiz(quiz);
                 quizQuestion.setQuestion(question);

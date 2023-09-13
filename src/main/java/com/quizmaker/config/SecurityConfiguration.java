@@ -32,7 +32,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors().configurationSource(corsConfigurationSource());
-        http.requiresChannel(channel -> channel.anyRequest().requiresSecure())
+        http
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
