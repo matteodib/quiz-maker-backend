@@ -3,18 +3,29 @@ version: '3.7'
 services:
 
   quiz-maker-backend:
-    
-    container_name: quiz-maker-backend
-    build:
-      context: .
-    ports:
-      - 8081:8080
-
+    image: registry.gitlab.com/matteodibs/quizmaker/quizmaker_be
     environment:
-      DB_HOST: 51.77.152.89
-      DB_PORT: 5432
-      DB_USER: quizmaker
-      DB_PASSWORD: q5Hee%jbPl
+      POSTGRES_JDBC: ${POSTGRES_JDBC}
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - quizmaker_db
 
-    command: >
-      sh -c "mvn spring-boot:run"
+  postgres_db:
+    image: postgres:15.10
+    hostname: ${POSTGRES_HOST}
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - quizmaker_db
+
+networks:
+  quizmaker_db:
+    driver: bridge
+
+volumes:
+  postgres-data:
